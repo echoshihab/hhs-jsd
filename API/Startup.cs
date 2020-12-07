@@ -36,6 +36,10 @@ namespace API
             });
             services.AddControllers();
             services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddCors();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,11 +50,20 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseCors(policy =>
+           {
+               policy
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .WithOrigins("http://localhost:3000");
+           });
+
             app.UseAuthorization();
+
+
 
             app.UseEndpoints(endpoints =>
             {
