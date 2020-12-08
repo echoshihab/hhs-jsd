@@ -1,35 +1,41 @@
-import React, { Component } from "react";
+import React, { Fragment } from "react";
+import { Route, Switch } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { Container } from "semantic-ui-react";
+import { ToastContainer } from "react-toastify";
+import NotFound from "./app/main/layout/NotFound";
+import NavBar from "./app/main/layout/NavBar";
+import LoginForm from "./app/main/user/LoginForm";
 import "./App.css";
-import axios from "axios";
-import Header from "semantic-ui-react/dist/commonjs/elements/Header/Header";
-import List from "semantic-ui-react/dist/commonjs/elements/List/List";
+import "semantic-ui-css/semantic.min.css";
+import PatientDashboard from "./app/main/patients/PatientDashboard";
+import PatientForm from "./app/main/patients/PatientForm";
 
-class App extends Component {
-  state = {
-    patients: [],
-  };
+const App = () => {
+  return (
+    <Fragment>
+      <ToastContainer position="bottom-right" />
 
-  componentDidMount() {
-    axios.get("http://localhost:5000/api/patients").then((response) => {
-      console.log(response.data);
-      this.setState({
-        patients: response.data.patients,
-      });
-    });
-  }
-  render() {
-    return (
-      <div>
-        <Header as="h2">
-          <Header.Content>Patients</Header.Content>
-        </Header>
-        <List>
-          {this.state.patients.map((patient: any) => (
-            <List.Item key={patient.id}>{patient.firstName}</List.Item>
-          ))}
-        </List>
-      </div>
-    );
-  }
-}
-export default App;
+      <Container fluid>
+        <Route exact path="/" component={LoginForm} />
+        <Route
+          path={"/(.+)"}
+          render={() => (
+            <Fragment>
+              <NavBar />
+              <Switch>
+                <Route path="/dashboard" component={PatientDashboard} />
+
+                <Route path={"/add-patient"} component={PatientForm} />
+
+                <Route component={NotFound} />
+              </Switch>
+            </Fragment>
+          )}
+        />
+      </Container>
+    </Fragment>
+  );
+};
+
+export default observer(App);
