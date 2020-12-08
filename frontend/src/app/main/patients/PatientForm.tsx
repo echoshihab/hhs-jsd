@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Segment, Form, Button, Grid, Label, Header } from "semantic-ui-react";
 
 import { observer } from "mobx-react-lite";
@@ -8,7 +8,6 @@ import {
   combineValidators,
   isRequired,
   composeValidators,
-  hasLengthGreaterThan,
   createValidator,
 } from "revalidate";
 import { RootStoreContext } from "../../stores/rootStore";
@@ -46,7 +45,7 @@ const PatientForm: React.FC<RouteComponentProps<DetailsParams>> = ({
   history,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { submitting, createPatient } = rootStore.patientStore;
+  const { createPatient } = rootStore.patientStore;
 
   const handleFinalFormSubmit = (values: IPatientFormValues) => {
     const { ...patient } = values;

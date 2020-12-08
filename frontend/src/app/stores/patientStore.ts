@@ -4,7 +4,6 @@ import {
   runInAction,
   makeObservable,
   computed,
-  values,
 } from "mobx";
 import { toast } from "react-toastify";
 import { history } from "../..";
@@ -19,6 +18,8 @@ export default class PatientStore {
   constructor(rootStore: RootStore) {
     makeObservable(this);
     this.rootStore = rootStore;
+
+    
 
   }
 
