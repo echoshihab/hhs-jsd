@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +24,9 @@ namespace API
                 try
                 {
                     var _db = services.GetRequiredService<DataContext>();
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
                     _db.Database.Migrate();
-                    Seed.SeedData(_db).Wait();
+                    Seed.SeedData(_db, userManager).Wait();
 
                 }
                 catch (Exception ex)

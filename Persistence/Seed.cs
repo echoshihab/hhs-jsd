@@ -9,9 +9,42 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context)
+        public static async Task SeedData(DataContext context,
+         UserManager<AppUser> userManager)
         {
 
+            if (!userManager.Users.Any())
+            {
+                var users = new List<AppUser>
+                {
+                    new AppUser
+                    {
+                        Id = "a",
+                        DisplayName = "admin",
+                        UserName = "admin",
+                        Email = "admin@email.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "b",
+                        DisplayName = "user",
+                        UserName = "user",
+                        Email = "user@email.com"
+                    },
+                    new AppUser
+                    {
+                        Id = "c",
+                        DisplayName = "test",
+                        UserName = "test",
+                        Email = "test@email.com"
+                    },
+                };
+
+                foreach (var user in users)
+                {
+                    await userManager.CreateAsync(user, "Account1!");
+                }
+            }
             if (!context.Patients.Any())
             {
                 var patients = new List<Patient>

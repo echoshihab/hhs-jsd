@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
 using Application.Patients;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class PatientsController : BaseController
     {
         [HttpGet]
