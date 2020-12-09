@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -54,9 +56,9 @@ namespace Application.Patients
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
 
-                var IsduplicatePatient = await _db.Patients.Where(x => x.HealthCardNumber == request.HealthCardNumber).FirstOrDefaultAsync();
+                var IsDuplicatePatient = await _db.Patients.Where(x => x.HealthCardNumber == request.HealthCardNumber).FirstOrDefaultAsync();
 
-                if (IsduplicatePatient != null) throw new Exception("A patient with this health card number already exists");
+                if (IsDuplicatePatient != null) throw new RestException(HttpStatusCode.Conflict, new { patient = "Patient with this healthcard already exists" });
 
                 var patient = new Patient
                 {

@@ -24,7 +24,9 @@ axios.interceptors.response.use(undefined, (error) => {
   if (error.message === "Network Error" && !error.response) {
     toast.error("Network error!");
   }
-  const { status, data, config } = error.response;
+
+  const { status, config } = error.response;
+
   if (status === 404) {
       history.push("/notfound");
   }
@@ -37,14 +39,13 @@ axios.interceptors.response.use(undefined, (error) => {
   }
 
   if (
-    status === 400 &&
-    config.method === "get" &&
-    data.errors.hasOwnProperty("id")
+    status === 400 && config.method === "get"
   ) {
-    history.push("/notfound");
+    toast.error("Bad Request");
   }
+  
   if (status === 500) {
-    toast.error("Server error- check the terminal for more info!");
+    toast.error("Server error!");
   }
   throw error.response;
 });

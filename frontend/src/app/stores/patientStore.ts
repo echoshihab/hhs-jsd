@@ -31,7 +31,6 @@ export default class PatientStore {
 
   @computed get patients(){
      const test = Array.from(this.patientsRegistry.values())
-     console.log(test.length);
      return test;
   }
 
@@ -63,8 +62,11 @@ export default class PatientStore {
       });
       history.push("/dashboard");
     } catch (error) {
-      toast.error("Problem submitting data");
-      throw error;
+      if (error.status === 409)
+        toast.error(`${error.data.errors.patient}!`)
+      else{
+        throw error;
+      }
     }
     runInAction(() => {
       this.submitting = false;

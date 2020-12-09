@@ -43,6 +43,7 @@ namespace API.Middleware
                     logger.LogError(ex, "REST ERROR");
                     errors = re.Errors;
                     context.Response.StatusCode = (int)re.Code;
+                    Console.WriteLine(context.Response.StatusCode);
                     break;
                 case Exception e:
                     logger.LogError(ex, "SERVER ERROR");
